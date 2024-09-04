@@ -13,8 +13,6 @@ const Wrapper = styled.section`
 	}
 	padding: 5rem 0;
 
-	background: var(--clr-primary0);
-
 	.header h3 {
 		margin-bottom: 2rem;
 	}
@@ -29,7 +27,6 @@ const Wrapper = styled.section`
 		gap: 2.5rem;
 	}
 	.service {
-		background: var(--clr-primary);
 		text-align: center;
 		padding: 2.5rem 2rem;
 		border-radius: var(--radius);
@@ -45,7 +42,6 @@ const Wrapper = styled.section`
 		place-items: center;
 		margin-bottom: 1rem;
 		border-radius: 50%;
-		background: var(--clr-primary0);
 		color: var(--clr-primary);
 		svg {
 			font-size: 2rem;

@@ -2,10 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import heroBcg from '../assets/hero-bcg.jpeg'
-import heroBcg2 from '../assets/hero-bcg-2.jpeg'
 
 const Hero = () => {
-	return <h4>hero</h4>
+	return (
+		<Wrapper className="section-center">
+			<article className="content">
+				<h1>
+					Design more with <span>Agoda</span>
+				</h1>
+				<p>
+					Industrialisation, Post-Modernism, and the Internet have allowed furniture design to become more accessible to
+					a wider range of people than ever before.
+				</p>
+				<Link
+					to="/products"
+					className="btn hero-btn">
+					Explore products
+				</Link>
+			</article>
+			<article className="img-container">
+				<img
+					src={heroBcg}
+					alt="loft"
+					className="main-img"
+				/>
+			</article>
+		</Wrapper>
+	)
 }
 
 const Wrapper = styled.section`
@@ -49,20 +72,11 @@ const Wrapper = styled.section`
 			display: block;
 			object-fit: cover;
 		}
-		.accent-img {
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			width: 250px;
-			transform: translateX(-50%);
-			border-radius: var(--radius);
-		}
 		.img-container::before {
 			content: '';
 			position: absolute;
 			width: 10%;
 			height: 80%;
-			background: var(--clr-primary);
 			bottom: 0%;
 			left: -8%;
 			border-radius: var(--radius);

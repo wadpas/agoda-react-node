@@ -42,7 +42,6 @@ const Wrapper = styled.section`
 		text-transform: capitalize;
 	}
 	.submit-btn {
-		background: var(--clr-primary);
 		text-transform: capitalize;
 		letter-spacing: var(--spacing);
 		cursor: pointer;
