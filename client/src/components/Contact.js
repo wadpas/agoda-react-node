@@ -2,7 +2,29 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Contact = () => {
-	return <h4>contact section</h4>
+	return (
+		<Wrapper>
+			<div className="section-center">
+				<h3>
+					Join our newsletter
+					<div className="underline"></div>
+				</h3>
+				<p>Any content you add or any change that you make to a site will be publicly and permanently available.</p>
+				<form className="contact-form">
+					<input
+						type="email"
+						className="form-input"
+						placeholder="enter your email"
+					/>
+					<button
+						type="submit"
+						className="submit-btn">
+						subscribe
+					</button>
+				</form>
+			</div>
+		</Wrapper>
+	)
 }
 const Wrapper = styled.section`
 	padding: 5rem 0;
@@ -15,6 +37,7 @@ const Wrapper = styled.section`
 		color: var(--clr-grey-5);
 	}
 	.contact-form {
+		margin-top: 1rem;
 		width: 90vw;
 		max-width: 500px;
 		display: grid;
@@ -25,7 +48,7 @@ const Wrapper = styled.section`
 	.submit-btn {
 		font-size: 1rem;
 		padding: 0.5rem 1rem;
-		border: 2px solid var(--clr-black);
+		border: 1px solid var(--clr-grey-7);
 	}
 	.form-input {
 		border-right: none;
@@ -47,6 +70,7 @@ const Wrapper = styled.section`
 		cursor: pointer;
 		transition: var(--transition);
 		color: var(--clr-black);
+		background-color: var(--clr-primary);
 	}
 	.submit-btn:hover {
 		color: var(--clr-white);
