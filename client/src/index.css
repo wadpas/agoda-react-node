@@ -187,5 +187,5 @@ p {
 	margin-right: auto;
 }
 .page {
-	min-height: calc(100vh - 13rem);
+	min-height: calc(100vh - 15rem);
 }

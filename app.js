@@ -11,17 +11,19 @@ const connectDB = require('./db/connect')
 const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 const authRouter = require('./routes/authRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
 
-app.get('/api/v1', (req, res) => {
+app.get('/', (req, res) => {
 	res.send('E-commerce API')
 })
 
-app.use('/', authRouter)
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/users', userRoutes)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
@@ -31,7 +33,7 @@ const start = async () => {
 	try {
 		await connectDB(process.env.MONGO_URI)
 		app.listen(port, () => {
-			console.log('Server started on port 3000')
+			console.log('Server started on port 5000')
 		})
 	} catch (error) {
 		console.log(error)
