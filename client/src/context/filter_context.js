@@ -40,8 +40,9 @@ export const FilterProvider = ({ children }) => {
 	}, [products])
 
 	useEffect(() => {
+		dispatch({ type: FILTER_PRODUCTS })
 		dispatch({ type: SORT_PRODUCTS })
-	}, [products, state.sort])
+	}, [products, state.sort, state.filters])
 
 	const setGridView = () => {
 		dispatch({ type: SET_GRIDVIEW })
@@ -52,9 +53,20 @@ export const FilterProvider = ({ children }) => {
 
 	const updateSort = (e) => {
 		const sort = e.target.value
-		console.log(sort)
-
 		dispatch({ type: UPDATE_SORT, payload: sort })
+	}
+
+	const updateFilters = (e) => {
+		let name = e.target.name
+		let value = e.target.value
+		if (name === 'price') {
+			value = Number(value)
+		}
+		dispatch({ type: UPDATE_FILTERS, payload: { name, value } })
+	}
+
+	const clearFilters = () => {
+		dispatch({ type: CLEAR_FILTERS })
 	}
 
 	return (
@@ -64,6 +76,8 @@ export const FilterProvider = ({ children }) => {
 				setGridView,
 				setListView,
 				updateSort,
+				updateFilters,
+				clearFilters,
 			}}>
 			{children}
 		</FilterContext.Provider>
