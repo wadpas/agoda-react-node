@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
+const { attachCookiesToResponse, checkPermissions } = require('../utils')
 const CustomError = require('../errors')
 
 const getAllUsers = async (req, res) => {
@@ -12,6 +13,7 @@ const getSingleUser = async (req, res) => {
 	if (!user) {
 		throw new CustomError.NotFoundError(`No user with id : ${req.params.id}`)
 	}
+	checkPermissions(req.user, user._id)
 	res.status(StatusCodes.OK).json(user)
 }
 
@@ -20,8 +22,18 @@ const showCurrentUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-	const users = 'updateUser'
-	res.status(200).json(users)
+	const { name, email } = req.body
+	if (!name || !email) {
+		throw new CustomError.BadRequestError('Please provide both values')
+	}
+	const user = await User.findOneAndUpdate(
+		{ _id: req.user.userId },
+		{ name, email },
+		{ new: true, runValidators: true }
+	).select('-password')
+	const tokenUser = { userId: user._id, name: user.name, role: user.role }
+	attachCookiesToResponse({ res, user: tokenUser })
+	res.status(StatusCodes.OK).json({ user: tokenUser })
 }
 
 const updateUserPassword = async (req, res) => {
@@ -34,6 +46,7 @@ const updateUserPassword = async (req, res) => {
 	if (!isPasswordCorrect) {
 		throw new CustomError.UnauthenticatedError('Invalid Credentials')
 	}
+
 	user.password = newPassword
 	await user.save()
 
