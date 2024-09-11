@@ -37,10 +37,10 @@ const cart_reducer = (state, action) => {
 			.map((item) => {
 				if (item.id === id) {
 					if (value === 'inc') {
-						return { ...item, amount: item.amount + 1 }
+						if (item.amount < item.max) return { ...item, amount: item.amount + 1 }
 					}
 					if (value === 'dec') {
-						return { ...item, amount: item.amount - 1 }
+						if (item.amount > 1) return { ...item, amount: item.amount - 1 }
 					}
 				}
 				return item

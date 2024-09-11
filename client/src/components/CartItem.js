@@ -4,8 +4,52 @@ import { formatPrice } from '../utils/helpers'
 import AmountButtons from './AmountButtons'
 import { FaTrash } from 'react-icons/fa'
 import { useCartContext } from '../context/cart_context'
-const CartItem = () => {
-	return <h4>cart item</h4>
+
+const CartItem = ({ amount, color, id, image, price, name, company, shipping, inStock }) => {
+	const { removeItem, toggleAmount, cart } = useCartContext()
+
+	const increase = () => {
+		toggleAmount(id, 'inc')
+	}
+	const decrease = () => {
+		toggleAmount(id, 'dec')
+	}
+
+	return (
+		<Wrapper>
+			<div className="title">
+				<img
+					src={image}
+					alt={name}
+				/>
+				<div>
+					<h5>{name}</h5>
+					<p>{company}</p>
+					<h5 className="color">
+						color :{' '}
+						<span
+							style={{
+								background: color,
+							}}></span>
+					</h5>
+					<h5 className="price-small"> {formatPrice(price)}</h5>
+				</div>
+			</div>
+			<h5 className="price">{formatPrice(price)}</h5>
+			<AmountButtons
+				amount={amount}
+				increase={increase}
+				decrease={decrease}
+			/>
+			<h5 className="subtotal"> {formatPrice(price * amount)}</h5>
+			<button
+				type="button"
+				className="remove-btn"
+				onClick={() => removeItem(id)}>
+				<FaTrash />
+			</button>
+		</Wrapper>
+	)
 }
 
 const Wrapper = styled.article`
@@ -38,7 +82,7 @@ const Wrapper = styled.article`
 		object-fit: cover;
 	}
 	h5 {
-		font-size: 0.75rem;
+		font-size: 1em;
 		margin-bottom: 0;
 	}
 

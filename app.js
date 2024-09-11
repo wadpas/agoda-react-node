@@ -5,6 +5,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const morgan = require('morgan')
+const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const connectDB = require('./db/connect')
 
@@ -12,11 +13,14 @@ const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 const authRouter = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
+const productRoutes = require('./routes/productRoutes')
 
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
+app.use(express.static('./public'))
+app.use(fileUpload())
 
 app.get('/', (req, res) => {
 	res.send('E-commerce API')
@@ -24,6 +28,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', userRoutes)
+app.use('/api/v1/products', productRoutes)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

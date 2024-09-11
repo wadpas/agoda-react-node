@@ -7,7 +7,21 @@ import CartItem from './CartItem'
 import CartTotals from './CartTotals'
 
 const CartContent = () => {
-	return <h4>cart content </h4>
+	const { cart } = useCartContext()
+	return (
+		<Wrapper className="section-center">
+			<CartColumns />
+			{cart.map((item) => {
+				return (
+					<CartItem
+						key={item.id}
+						{...item}
+					/>
+				)
+			})}
+			<CartTotals />
+		</Wrapper>
+	)
 }
 const Wrapper = styled.section`
 	.link-container {
@@ -21,6 +35,7 @@ const Wrapper = styled.section`
 		text-transform: capitalize;
 		padding: 0.25rem 0.5rem;
 		color: var(--clr-white);
+		background: var(--clr-primary);
 		border-radius: var(--radius);
 		letter-spacing: var(--spacing);
 		font-weight: 400;
