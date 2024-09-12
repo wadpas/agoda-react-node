@@ -1,6 +1,6 @@
 const User = require('../models/User')
-const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
+const { StatusCodes } = require('http-status-codes')
 const { attachCookiesToResponse } = require('../utils')
 
 const register = async (req, res) => {

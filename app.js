@@ -14,6 +14,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 const authRouter = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const productRoutes = require('./routes/productRoutes')
+const reviewRoutes = require('./routes/reviewRoutes')
 
 app.use(cors())
 app.use(morgan('tiny'))
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/products', productRoutes)
+app.use('/api/v1/reviews', reviewRoutes)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
