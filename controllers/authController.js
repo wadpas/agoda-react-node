@@ -1,7 +1,7 @@
 const User = require('../models/User')
 const CustomError = require('../errors')
 const { StatusCodes } = require('http-status-codes')
-const { attachCookiesToResponse } = require('../utils')
+const { attachCookiesToResponse, sendVerificationEmail } = require('../utils')
 const crypto = require('crypto')
 
 const register = async (req, res) => {
@@ -14,10 +14,35 @@ const register = async (req, res) => {
 	const role = isFirstAccount ? 'admin' : 'user'
 	const verificationToken = crypto.randomBytes(40).toString('hex')
 	const user = await User.create({ name, email, password, role, verificationToken })
+
+	const origin = 'http://localhost:3000'
+	await sendVerificationEmail({
+		name: user.name,
+		email: user.email,
+		verificationToken: user.verificationToken,
+		origin,
+	})
+
 	res.status(StatusCodes.CREATED).send({
 		msg: 'Success! Please verify your email',
 		verificationToken: user.verificationToken,
 	})
+}
+
+const verifyEmail = async (req, res) => {
+	const { verificationToken, email } = req.body
+	const user = await User.findOne({ email })
+	if (!user) {
+		throw new CustomError.UnauthenticatedError('Verification Failed')
+	}
+	if (user.verificationToken !== verificationToken) {
+		throw new CustomError.UnauthenticatedError('Verification Failed')
+	}
+	user.isVerified = true
+	user.verified = Date.now()
+	user.verificationToken = ''
+	await user.save()
+	res.status(StatusCodes.OK).send('Email Verified')
 }
 
 const login = async (req, res) => {
@@ -53,4 +78,5 @@ module.exports = {
 	register,
 	login,
 	logout,
+	verifyEmail,
 }
